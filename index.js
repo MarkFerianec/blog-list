@@ -5,14 +5,18 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
 
-const blogSchema = new mongoose.Schema({
-  title: String,
-  author: String,
-  url: String,
-  likes: Number,
-});
+// Temporary
+const blogsRouter = require('./controllers/blogs');
 
-const Blog = mongoose.model('Blog', blogSchema);
+// Moved
+// const blogSchema = new mongoose.Schema({
+//   title: String,
+//   author: String,
+//   url: String,
+//   likes: Number,
+// });
+
+// const Blog = mongoose.model('Blog', blogSchema);
 
 // const mongoUrl = 'mongodb://localhost/bloglist';
 const mongoUrl = process.env.MONGODB_URI;
@@ -22,19 +26,23 @@ app.use(morgan('tiny'));
 app.use(cors());
 app.use(express.json());
 
-app.get('/api/blogs', (request, response) => {
-  Blog.find({}).then((blogs) => {
-    response.json(blogs);
-  });
-});
+// Temporary
+app.use('/api/blogs', blogsRouter);
 
-app.post('/api/blogs', (request, response) => {
-  const blog = new Blog(request.body);
+// Moved
+// app.get('/api/blogs', (request, response) => {
+//   Blog.find({}).then((blogs) => {
+//     response.json(blogs);
+//   });
+// });
 
-  blog.save().then((result) => {
-    response.status(201).json(result);
-  });
-});
+// app.post('/api/blogs', (request, response) => {
+//   const blog = new Blog(request.body);
+
+//   blog.save().then((result) => {
+//     response.status(201).json(result);
+//   });
+// });
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
