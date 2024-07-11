@@ -7,6 +7,7 @@ const morgan = require('morgan');
 
 // Temporary
 const blogsRouter = require('./controllers/blogs');
+const config = require('./utils/config');
 
 // Moved
 // const blogSchema = new mongoose.Schema({
@@ -18,9 +19,7 @@ const blogsRouter = require('./controllers/blogs');
 
 // const Blog = mongoose.model('Blog', blogSchema);
 
-// const mongoUrl = 'mongodb://localhost/bloglist';
-const mongoUrl = process.env.MONGODB_URI;
-mongoose.connect(mongoUrl);
+mongoose.connect(config.MONGODB_URI);
 
 app.use(morgan('tiny'));
 app.use(cors());
@@ -44,7 +43,6 @@ app.use('/api/blogs', blogsRouter);
 //   });
 // });
 
-const PORT = process.env.PORT;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+app.listen(config.PORT, () => {
+  console.log(`Server running on port ${config.PORT}`);
 });
