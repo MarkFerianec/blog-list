@@ -31,6 +31,20 @@ test('all blogs are returned', async () => {
   assert.strictEqual(response.body.length, helper.initialBlogs.length);
 });
 
+test('verify unique identifier properties of the blog posts are named id', async () => {
+  const response = await api.get('/api/blogs');
+
+  const blogIdPropertyExists = response.body.map((blog) =>
+    Object.hasOwn(blog, 'id')
+  );
+
+  const doesEveryBlogHaveId = blogIdPropertyExists.every(
+    (value) => value === true
+  );
+
+  assert.strictEqual(doesEveryBlogHaveId, true);
+});
+
 after(async () => {
   await mongoose.connection.close();
 });
