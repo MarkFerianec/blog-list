@@ -45,6 +45,27 @@ test('verify unique identifier properties of the blog posts are named id', async
   assert.strictEqual(doesEveryBlogHaveId, true);
 });
 
+test('verify that making an HTTP POST request to the /api/blogs URL successfully creates a new blog post', async () => {
+  const newBlog = {
+    title: 'title of new blog',
+    author: 'author of new blog',
+    url: 'url of new blog',
+    likes: 1,
+  };
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/);
+
+  const blogsAtEnd = await helper.blogsInDb();
+  assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length + 1);
+
+  const contents = blogsAtEnd.map((blogs) => blogs.title);
+  assert(contents.includes('title of new blog'));
+});
+
 after(async () => {
   await mongoose.connection.close();
 });
