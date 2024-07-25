@@ -11,13 +11,13 @@ const initialBlogs = [
     title: 'Title of blog2',
     author: 'Author of blog2',
     url: 'Url of blog2',
-    likes: 2,
+    likes: 1,
   },
   {
     title: 'Title of blog3',
     author: 'Author of blog3',
     url: 'Url of blog3',
-    likes: 3,
+    likes: 1,
   },
 ];
 

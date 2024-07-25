@@ -80,6 +80,26 @@ test('delete a blog and return a status code of 204', async () => {
   assert(!titles.includes(blogToDelete.title));
 });
 
+test('update the information of an individual blog post', async () => {
+  const updatedBlog = {
+    title: 'Updated title of blog',
+    author: 'Updated author of blog',
+    url: 'Updated url of blog',
+    likes: 1,
+  };
+
+  const blogsAtStart = await helper.blogsInDb();
+  const blogToUpdate = blogsAtStart[blogsAtStart.length - 1];
+
+  await api.put(`/api/blogs/${blogToUpdate.id}`).send(updatedBlog).expect(200);
+
+  const blogsAtEnd = await helper.blogsInDb();
+  assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length);
+
+  const titles = blogsAtEnd.map((blog) => blog.title);
+  assert(titles.includes('Updated title of blog'));
+});
+
 after(async () => {
   await mongoose.connection.close();
 });
